@@ -1,28 +1,17 @@
-const express =require('express')
-const router= express.Router();
+const express = require('express')
+const router = express.Router();
+const { getContact, getSpecificContact, createContact, updateContact, deleteContact } = require('../controllers/contactControllers')
 
-router.route('/').get((req,res)=>{
-    res.status(200).json({message:'get all contacts'});
-})
+// here we have passed all the functions to controllers folder
+router.route('/').get(getContact)
 
-//thode who have id, the url should be-> http://localhost:5001/api/contacts/1
-router.route('/:id').get((req,res)=>{
-    res.status(200).json({message:`get specific contact of ${req.params.id}`});
-})
+router.route('/:id').get(getSpecificContact)
 
-router.route('/:id').put((req,res)=>{
-    res.status(200).json({message:`put specific contact of ${req.params.id}`});
-})
+router.route('/:id').put(createContact)
 
-router.route('/').post((req,res)=>{
-    res.status(200).json({message:'post contacts'});
-})
+router.route('/').post(updateContact)
+
+router.route('/:id').delete(deleteContact)
 
 
-router.route('/:id').delete((req,res)=>{
-    res.status(200).json({message:`delete specific contact of ${req.params.id}`});
-})
-
-
-
-module.exports =router;
+module.exports = router;
