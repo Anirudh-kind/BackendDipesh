@@ -1,3 +1,5 @@
+const colors = require('colors')
+
 //@desc Get all Routes
 //@route GET /api/contacts
 //@access public
@@ -23,7 +25,13 @@ const createContact = (req, res) => {
 //@route Post /api/contatcts/:id
 //@access public
 const updateContact = (req, res) => {
-    res.status(200).json({ message: `update contacts ${req.params.id}`});
+    const { name, email, phone } = req.body;
+    if (!name || !email || !phone) {
+        res.status(400);
+        throw new Error("all fields are mandatory".bgRed)
+    }
+    console.log(`req.body is :${JSON.stringify(req.body)}`.cyan)
+    res.status(200).json({ message: `update contacts ${req.params.id}` });
 }
 
 //@desc delete a specific contact
