@@ -1,6 +1,6 @@
 const colors = require('colors')
 
-//@desc Get all Routes
+//@desc Get all Contacts
 //@route GET /api/contacts
 //@access public
 const getContact = (req, res) => {
