@@ -13,6 +13,8 @@ app.use(express.json()) //middleware used to parse incoming requests with JSON p
 // here we changed get->use; we are using middleware
 app.use('/api/contacts',require('./routes/contactRoute')) 
 
+app.use('/api/users',require('./routes/userRoutes'))
+
 //we are calling a middleware named error handler, to use middleWare we write 'use' like 'app.use'
 app.use(errorHandler);
 
