@@ -4,10 +4,10 @@ const Contact = require('../models/contactModel')
 //@desc Get all Contacts
 //@route GET /api/contacts
 //@access public
-const getContact = async (req, res) => {
+const getContact =asyncHandler( async (req, res) => {
     const contacts = await Contact.find()
     res.status(200).json(contacts);
-}
+})
 
 //@desc get a specific contact
 //@route  Get /api/contatcts/:id
