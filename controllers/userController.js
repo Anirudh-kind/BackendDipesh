@@ -1,0 +1,62 @@
+const asyncHandler = require('express-async-handler')// just wrap the function around it and no need to use try-catch block
+const User = require('../models/userModel.js')
+const jwt = require('jsonwebtoken')
+
+const bcrypt = require('bcrypt')
+//@desc Register the user
+//@route POST /api/users/register
+//@access public
+const registerUser = asyncHandler(async (req, res) => {
+    console.log("Request received at /api/users/register");
+
+    const { username, password, email } = req.body;
+
+    if (!req.body || !username || !password || !email) {
+        console.log("Missing fields in request body"); // Log the issue
+        error.statusCode = 400;
+        throw new Error('All fields are required');
+    }
+
+    const userAvailable = await User.findOne({ email });
+
+    if (userAvailable) {
+        console.log("User already exists.");
+        res.status(400);
+        throw new Error('user/email already exist')
+    } else {
+        console.log("User does not exist, proceeding to register.");
+    }
+
+    // create hashed password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+        username, email, password: hashedPassword
+    });
+
+    console.log(`new user created ${user}`.bgMagenta);
+    if (user) {
+        res.status(200).json({ _id: user.id, email: user.email });
+    } else {
+        res.status(400);
+        throw new Error("user data is not valid");
+    }
+
+    res.json({ message: 'user is registered' })
+})
+
+//@desc Login the user
+//@route POST /api/users/login
+//@access public
+const loginUser = asyncHandler(async (req, res) => {
+    res.json({ message: "login the user" })
+})
+
+//@desc Get the current user
+//@route GET /api/users/current
+//@access private
+const curentUser = asyncHandler(async (req, res) => {
+    res.json({ message: "current user information" })
+})
+
+module.exports = { registerUser, loginUser, curentUser }
