@@ -59,7 +59,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
 
-        const accessToken = jwt.sign({ user: { username: user.username, email: user.email, id: user.id } }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' })// algoTye+payload+secret
+        const accessToken = jwt.sign({ user: { username: user.username, email: user.email, id: user.id } }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })// algoTye+payload+secret
 
         res.status(200);
         res.json({ accessToken })
@@ -73,7 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //@route GET /api/users/current
 //@access private
 const curentUser = asyncHandler(async (req, res) => {
-    res.json({ message: "current user information" })
+    res.json(req.user)
 })
 
 module.exports = { registerUser, loginUser, curentUser }
